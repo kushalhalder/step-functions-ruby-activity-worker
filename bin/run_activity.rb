@@ -28,9 +28,15 @@
 
 require_relative '../lib/step_functions/activity'
 
+if ARGV.length < 1
+	puts "Too few arguments"
+	exit
+end
+
 credentials = Aws::SharedCredentials.new
-region = 'us-west-2'
-activity_arn = 'ACTIVITY_ARN'
+region = 'ap-south-1'
+# activity_arn = 'arn:aws:states:ap-south-1:127603365779:activity:paymentFlow-generatePaymentLink'
+activity_arn = ARGV[0]
 
 activity = StepFunctions::Activity.new(
     credentials: credentials,

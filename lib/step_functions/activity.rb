@@ -112,7 +112,7 @@ module StepFunctions
       @pollers_count = Validate.positive(options[:pollers_count] || 1)
       @workers_count = Validate.positive(options[:workers_count] || 1)
       @max_retry = Validate.positive(options[:workers_count] || 3)
-      @logger = Logger.new(STDOUT)
+      @logger = Logger.new("logfile.log")
     end
 
     # Starts the execution of the activity.
@@ -300,7 +300,7 @@ module StepFunctions
         end
         return if activity_task.nil? || activity_task.task_token.nil?
         @activities.add(activity_task.task_token)
-        @sink.push(activity_task)
+				@sink.push(activity_task)
       end
     end
 
