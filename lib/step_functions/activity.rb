@@ -54,7 +54,7 @@ module StepFunctions
   def self.with_retries(options = {}, &block)
     retries = 0
     base_delay_seconds = options[:base_delay_seconds] || 2
-    max_retries = options[:max_retries] || 3
+    max_retries = options[:max_retries] || 5
     begin
       block.call
     rescue => e
@@ -112,7 +112,7 @@ module StepFunctions
       @pollers_count = Validate.positive(options[:pollers_count] || 1)
       @workers_count = Validate.positive(options[:workers_count] || 1)
       @max_retry = Validate.positive(options[:workers_count] || 3)
-      @logger = Logger.new(STDOUT)
+      @logger = Logger.new("logfile.log")
     end
 
     # Starts the execution of the activity.
@@ -234,7 +234,7 @@ module StepFunctions
 
     class Worker
       def initialize
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
         @running = false
         @thread = nil
       end
@@ -286,7 +286,7 @@ module StepFunctions
         @sink = options[:sink]
         @activities = options[:activities]
         @max_retry = options[:max_retry]
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
       end
 
       def run
@@ -300,7 +300,7 @@ module StepFunctions
         end
         return if activity_task.nil? || activity_task.task_token.nil?
         @activities.add(activity_task.task_token)
-        @sink.push(activity_task)
+				@sink.push(activity_task)
       end
     end
 
@@ -311,7 +311,7 @@ module StepFunctions
         @sink = options[:sink]
         @activities = options[:activities]
         @max_retry = options[:max_retry]
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
       end
 
       def run
@@ -359,7 +359,7 @@ module StepFunctions
         @activities = options[:activities]
         @heartbeat_delay = options[:heartbeat_delay]
         @max_retry = options[:max_retry]
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
       end
 
       def run

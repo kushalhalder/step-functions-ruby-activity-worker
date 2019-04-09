@@ -28,15 +28,9 @@
 
 require_relative '../lib/step_functions/activity'
 
-if ARGV.length < 1
-	puts "Too few arguments"
-	exit
-end
-
 credentials = Aws::SharedCredentials.new
 region = 'ap-south-1'
-# activity_arn = 'arn:aws:states:ap-south-1:127603365779:activity:paymentFlow-generatePaymentLink'
-activity_arn = ARGV[0]
+activity_arn = 'arn:aws:states:ap-south-1:127603365779:activity:communication-paymentLinkGenerated'
 
 activity = StepFunctions::Activity.new(
     credentials: credentials,
@@ -49,5 +43,6 @@ activity = StepFunctions::Activity.new(
 
 # The start method takes as argument the block that is the actual logic of your custom activity.
 activity.start do |input|
-    { result: :SUCCESS, echo: input['value'] }
+    sleep rand(1...3)
+    true
 end
