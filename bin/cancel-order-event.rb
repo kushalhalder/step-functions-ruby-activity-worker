@@ -26,23 +26,23 @@
 # of activity worker threads. You should also adjust the activity hearbeat, specified in seconds, accordingly to your
 # Step Functions state machine definition.
 
-require 'securerandom'
 require_relative '../lib/step_functions/activity'
 
 credentials = Aws::SharedCredentials.new
 region = 'ap-south-1'
-activity_arn = 'arn:aws:states:ap-south-1:127603365779:activity:paymentFlow-generatePaymentLink'
+activity_arn = 'arn:aws:states:ap-south-1:127603365779:activity:orderFlow-cancelOrderEvent'
 
 activity = StepFunctions::Activity.new(
     credentials: credentials,
     region: region,
     activity_arn: activity_arn,
-    workers_count: 1,
-    pollers_count: 1,
+    workers_count: 10,
+    pollers_count: 10,
     heartbeat_delay: 30
 )
 
 # The start method takes as argument the block that is the actual logic of your custom activity.
-activity.start do |order_id|
-	"http://peasy.in/" + order_id
+activity.start do |input|
+    sleep rand(0.1...0.3)
+    true
 end

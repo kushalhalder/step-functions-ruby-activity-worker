@@ -43,5 +43,6 @@ activity = StepFunctions::Activity.new(
 
 # The start method takes as argument the block that is the actual logic of your custom activity.
 activity.start do |input|
-    { result: :SUCCESS, echo: input['value'] }
+    sleep rand(1...3)
+    true
 end

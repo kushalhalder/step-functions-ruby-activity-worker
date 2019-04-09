@@ -26,6 +26,7 @@
 # of activity worker threads. You should also adjust the activity hearbeat, specified in seconds, accordingly to your
 # Step Functions state machine definition.
 
+require 'securerandom'
 require_relative '../lib/step_functions/activity'
 
 credentials = Aws::SharedCredentials.new
@@ -42,6 +43,7 @@ activity = StepFunctions::Activity.new(
 )
 
 # The start method takes as argument the block that is the actual logic of your custom activity.
-activity.start do |input|
-    { result: :SUCCESS, echo: input['value'] }
+activity.start do |order_id|
+    sleep rand(2...6)
+    SecureRandom.hex
 end

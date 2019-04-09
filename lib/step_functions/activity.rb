@@ -54,7 +54,7 @@ module StepFunctions
   def self.with_retries(options = {}, &block)
     retries = 0
     base_delay_seconds = options[:base_delay_seconds] || 2
-    max_retries = options[:max_retries] || 3
+    max_retries = options[:max_retries] || 5
     begin
       block.call
     rescue => e
@@ -234,7 +234,7 @@ module StepFunctions
 
     class Worker
       def initialize
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
         @running = false
         @thread = nil
       end
@@ -286,7 +286,7 @@ module StepFunctions
         @sink = options[:sink]
         @activities = options[:activities]
         @max_retry = options[:max_retry]
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
       end
 
       def run
@@ -311,7 +311,7 @@ module StepFunctions
         @sink = options[:sink]
         @activities = options[:activities]
         @max_retry = options[:max_retry]
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
       end
 
       def run
@@ -359,7 +359,7 @@ module StepFunctions
         @activities = options[:activities]
         @heartbeat_delay = options[:heartbeat_delay]
         @max_retry = options[:max_retry]
-        @logger = Logger.new(STDOUT)
+        @logger = Logger.new("logfile.log")
       end
 
       def run
